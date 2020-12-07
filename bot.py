@@ -31,29 +31,35 @@ def followAll():
     for follower in tweepy.Cursor(api.followers).items():
         follower.follow()
 
+"""
+Replies to 20 most recent mentions if not interacted with before in chronological order
+"""
 def replyToMentions():
     last_seen_id = retrieveLastSeenId(FILE_NAME)
     mentions = api.mentions_timeline(last_seen_id, tweet_mode='extended')
     for mention in reversed(mentions):
-        # last_seen_id = mention.id
-        # storeLastSeenId(last_seen_id, FILE_NAME)
-
-        # Functionality
-        api.update_status('@' + mention.user.screen_name + ' BARK BARK WOOF', mention.id)
-        # api.send_direct_message(mention.user.id, 'BARK BARK BARK')
-
-def likeRetweetsByFollowers():
-    last_seen_id = retrieveLastSeenId(FILE_NAME)
-    timeline = api.home_timeline()
-    for tweet in reversed(timeline):
-        last_seen_id = tweet.id
+        last_seen_id = mention.id
         storeLastSeenId(last_seen_id, FILE_NAME)
 
         # Functionality
-        if (tweet.retweeted == True):
-            print(tweet.id)
+        text = ''
+        api.update_status('@' + mention.user.screen_name + ' ' + text, mention.id)
 
-# Infinite loop to keep running bot
+"""
+Direct messages 20 most recent mentions if not interacted with before in chronological order
+"""
+def directMessageMentions():
+    last_seen_id = retrieveLastSeenId(FILE_NAME)
+    mentions = api.mentions_timeline(last_seen_id, tweet_mode='extended')
+    for mention in reversed(mentions):
+        last_seen_id = mention.id
+        storeLastSeenId(last_seen_id, FILE_NAME)
+
+        # Functionality
+        text = ''
+        api.send_direct_message(mention.user.id, text)
+
+# Infinite loop to keep running the bot
 while True:
     followAll()
     replyToMentions()

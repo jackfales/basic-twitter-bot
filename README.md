@@ -8,6 +8,10 @@
 
 ```cd basic-twitter-bot/```
 
+### Install Dependencies
+1. Install [Python3](https://www.python.org/)<br />
+2. Install Tweepy using ```pip3 install tweepy```
+
 ### Configure API Keys
 Create a config file
 ```config.py``` and copy the following into it:
