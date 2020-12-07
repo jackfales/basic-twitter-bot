@@ -1,12 +1,21 @@
+# -----------------------------------------------------------
+# A basic Twitter bot used to teach others about interacting
+# with APIs 
+#
+# Built by Jack Fales
+# -----------------------------------------------------------
+
 import tweepy
 import config
 import time
+
+# Authentication --------------------------------------------
 
 auth = tweepy.OAuthHandler(config.API_KEY, config.API_SECRET_KEY)
 auth.set_access_token(config.ACCESS_TOKEN, config.ACCESS_SECRET_TOKEN)
 api = tweepy.API(auth)
 
-# Helper functions ------------------------------
+# Helper functions ------------------------------------------
 
 FILE_NAME = 'last_seen_id.txt'
 
@@ -22,19 +31,15 @@ def storeLastSeenId(last_seen_id, file_name):
     f_write.close()
     return
 
-# -----------------------------------------------
+# Main functions --------------------------------------------
 
-"""
-Follows all followers
-"""
 def followAll():
+    """Follows all followers"""
     for follower in tweepy.Cursor(api.followers).items():
         follower.follow()
 
-"""
-Replies to 20 most recent mentions if not interacted with before in chronological order
-"""
 def replyToMentions():
+    """Replies to 20 most recent mentions if not interacted with before in chronological order"""
     last_seen_id = retrieveLastSeenId(FILE_NAME)
     mentions = api.mentions_timeline(last_seen_id, tweet_mode='extended')
     for mention in reversed(mentions):
@@ -45,10 +50,8 @@ def replyToMentions():
         text = ''
         api.update_status('@' + mention.user.screen_name + ' ' + text, mention.id)
 
-"""
-Direct messages 20 most recent mentions if not interacted with before in chronological order
-"""
 def directMessageMentions():
+    """Direct messages 20 most recent mentions if not interacted with before in chronological order"""
     last_seen_id = retrieveLastSeenId(FILE_NAME)
     mentions = api.mentions_timeline(last_seen_id, tweet_mode='extended')
     for mention in reversed(mentions):
@@ -59,8 +62,10 @@ def directMessageMentions():
         text = ''
         api.send_direct_message(mention.user.id, text)
 
-# Infinite loop to keep running the bot
+# Loop to run the bot ---------------------------------------
+
 while True:
     followAll()
     replyToMentions()
+    directMessageMentions()
     time.sleep(10)
