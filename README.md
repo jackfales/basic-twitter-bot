@@ -1,5 +1,5 @@
 # basic-twitter-bot
-> A basic twitter bot built using Python and [Tweepy](https://www.tweepy.org/)
+> A basic Twitter bot built using Python and [Tweepy](https://www.tweepy.org/)
 
 ## How to Run
 
