@@ -47,7 +47,7 @@ def replyToMentions():
         storeLastSeenId(last_seen_id, FILE_NAME)
 
         # Functionality
-        text = ''
+        text = 'Hello World!'
         api.update_status('@' + mention.user.screen_name + ' ' + text, mention.id)
 
 def directMessageMentions():
@@ -59,13 +59,27 @@ def directMessageMentions():
         storeLastSeenId(last_seen_id, FILE_NAME)
 
         # Functionality
-        text = ''
+        text = 'Hello World!'
         api.send_direct_message(mention.user.id, text)
+
+def likeRecentTweets():
+    """Likes 20 most recent tweets (including retweets) on timeline if not interacted with before in chronological order"""
+    last_seen_id = retrieveLastSeenId(FILE_NAME)
+    recent_tweets = api.home_timeline(last_seen_id, tweet_mode='extended')
+    for tweet in reversed(recent_tweets):
+        last_seen_id = tweet.id
+        storeLastSeenId(last_seen_id, FILE_NAME)
+
+        # Functionality
+        if not tweet.favorited:
+            tweet.favorite()
+
 
 # Loop to run the bot ---------------------------------------
 
 while True:
     followAll()
     replyToMentions()
+    likeRecentTweets()
     directMessageMentions()
     time.sleep(10)
