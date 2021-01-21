@@ -35,8 +35,8 @@ def storeLastSeenId(last_seen_id, file_name):
 
 def followAll():
     """Follows all followers"""
-    for follower in tweepy.Cursor(api.followers).items():
-        follower.follow()
+    for follower in api.followers():
+        api.create_friendship(follower.id)
 
 def replyToMentions():
     """Replies to 20 most recent mentions if not interacted with before in chronological order"""
