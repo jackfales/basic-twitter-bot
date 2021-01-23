@@ -42,3 +42,6 @@ Input your own API keys/tokens
 ### Deployment
 * [AWS](https://aws.amazon.com/codedeploy/#:~:text=AWS%20CodeDeploy%20is%20a%20fully,and%20your%20on%2Dpremises%20servers.&text=You%20can%20use%20AWS%20CodeDeploy,for%20error%2Dprone%20manual%20operations.)
 * [PythonAnywhere](https://www.pythonanywhere.com/)
+
+## Sources
+[CS Dojo](https://www.youtube.com/watch?v=W0wWwglE1Vc&ab_channel=CSDojo)
